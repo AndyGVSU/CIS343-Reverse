@@ -6,12 +6,6 @@
 int read_file(char* filename, char** buffer)
 	{
 	FILE* inputFile;
-	//char* fileBuffer = *buffer;
-	
-	//printf("%p\n",buffer);
-	//printf("%p\n",*buffer);
-	//printf("%p\n",fileBuffer);
-
 	int charSize = sizeof(char);
 	int bytesRead;
 
@@ -20,7 +14,6 @@ int read_file(char* filename, char** buffer)
 	int fileSize = st.st_size;
 	
 	*buffer = (char*) malloc(fileSize * charSize);
-	//printf("%p\n",fileBuffer);
 	
 	if (*buffer == NULL) 
 		{ 
@@ -37,7 +30,6 @@ int read_file(char* filename, char** buffer)
 	else
 		{
 		bytesRead = fread(*buffer, charSize, fileSize / charSize, inputFile);
-		//fileBuffer[sizeof fileBuffer - 1] = 0;
 		fclose(inputFile);
 		}
 
@@ -52,7 +44,8 @@ int write_file(char* filename, char* buffer, int size)
 	
 	int bytesWritten = fwrite(buffer, charSize, size / charSize, outputFile);
 	
-	free(buffer); //deallocate buffer memory
+	//deallocate buffer memory
+	free(buffer);
 	fclose(outputFile);
 	
 	return bytesWritten;
