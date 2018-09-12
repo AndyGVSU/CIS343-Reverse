@@ -1,8 +1,15 @@
+//file_utils.c
+//Handles reading and writing text files.
+//Written by Andy Hudson
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
 #include "file_utils.h"
 
+//Reads a given file and writes it to the given buffer.
+//@param filename - name of the text file to read from (must contain text!)
+//@param buffer - pointer to a space for memory to be allocated to
 int read_file(char* filename, char** buffer)
 	{
 	FILE* inputFile;
@@ -22,7 +29,7 @@ int read_file(char* filename, char** buffer)
 		}
 	
 	inputFile = fopen(filename,"r");
-	if (inputFile == NULL) 
+	if (inputFile == NULL)
 		{ 
 		fprintf(stderr,"file_read error: invalid file name"); 
 		return -2; 
@@ -35,6 +42,11 @@ int read_file(char* filename, char** buffer)
 
 	return bytesRead;
 	}
+
+//Writes a new file from the text stored in the buffer.
+//@param filename - Name of the file to create (or overwrite)
+//@param buffer - string to write to the new file
+//@param size - size (in bytes) of the text to write
 int write_file(char* filename, char* buffer, int size)
 	{
 	FILE* outputFile;

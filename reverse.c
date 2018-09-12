@@ -1,8 +1,12 @@
+//reverse.c
+//Takes two files as input; the second file will contain the text of the first reversed.
+//Written by Andy Hudson
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "file_utils.h"
 
-int main(int argc, char** argv)
+int main(int argc, char** argv) 
 	{
 	char* inputFilename = *++argv;
 	argv++;
