@@ -10,8 +10,7 @@
 //Reads a given file and writes it to the given buffer.
 //@param filename - name of the text file to read from (must contain text!)
 //@param buffer - pointer to a space for memory to be allocated to
-int read_file(char* filename, char** buffer)
-	{
+int read_file(char* filename, char** buffer) {
 	FILE* inputFile;
 	int charSize = sizeof(char);
 	int bytesRead;
@@ -22,38 +21,39 @@ int read_file(char* filename, char** buffer)
 	
 	*buffer = (char*) malloc(fileSize * charSize);
 	
-	if (*buffer == NULL) 
-		{ 
-		fprintf(stderr,"file_read error: invalid memory allocation"); 
-		return -1; 
-		}
-	
 	inputFile = fopen(filename,"r");
-	if (inputFile == NULL)
-		{ 
-		fprintf(stderr,"file_read error: invalid file name"); 
-		return -2; 
-		}
-	else
-		{
+	if (inputFile == NULL) { 
+		fprintf(stderr,"\nfile_read error: invalid file name");
+		return -2;
+	}
+
+	if (*buffer == NULL) { 
+		fprintf(stderr,"\nfile_read error: invalid memory allocation"); 
+		return -1;
+	}
+	
+			//else {
 		bytesRead = fread(*buffer, charSize, fileSize / charSize, inputFile);
 		fclose(inputFile);
-		}
+	//}
 
 	return bytesRead;
-	}
+}
 
 //Writes a new file from the text stored in the buffer.
 //@param filename - Name of the file to create (or overwrite)
 //@param buffer - string to write to the new file
 //@param size - size (in bytes) of the text to write
-int write_file(char* filename, char* buffer, int size)
-	{
+int write_file(char* filename, char* buffer, int size) {
 	FILE* outputFile;
 	int charSize = sizeof(char);
 
 	outputFile = fopen(filename,"w");
-	
+	if (outputFile == NULL) { 
+		fprintf(stderr,"\nfile_write error: invalid file name"); 
+		return -2;
+	}
+
 	int bytesWritten = fwrite(buffer, charSize, size / charSize, outputFile);
 	
 	//deallocate buffer memory
@@ -61,4 +61,4 @@ int write_file(char* filename, char* buffer, int size)
 	fclose(outputFile);
 	
 	return bytesWritten;
-	}
+}

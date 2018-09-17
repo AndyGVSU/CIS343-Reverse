@@ -6,8 +6,7 @@
 #include <stdlib.h>
 #include "file_utils.h"
 
-int main(int argc, char** argv) 
-	{
+int main(int argc, char** argv) {
 	char* inputFilename = *++argv;
 	argv++;
 	char* outputFilename = *argv;
@@ -16,15 +15,17 @@ int main(int argc, char** argv)
 	fileBuffer = &bufferPointer;
 	
 	int bytesRead = read_file(inputFilename, fileBuffer);
-	if (bytesRead < 0) { return bytesRead; } //read_file() error
-	
+	if (bytesRead < 0) {
+		fprintf(stderr,"\nfile_read error");
+	       	return bytesRead; //read_file() error
+	}
+
 	int first = 0;
 	int last = bytesRead - 2; //two for array bound / null character
 	char swapCharFirst;
 	char swapCharLast;
 	
-	while (first < last)
-		{
+	while (first < last) {
 		//store first char
 		swapCharFirst = **fileBuffer;
 		//goto last char
@@ -43,12 +44,16 @@ int main(int argc, char** argv)
 		//close bounds
 		first++;
 		last--;
-		}
+	}
 
 	//move buffer back to original position
 	*fileBuffer -= first * sizeof(char);
-
+	
 	int bytesWritten = write_file(outputFilename, *fileBuffer, bytesRead);
-
+	if (bytesWritten != bytesRead) {
+		fprintf(stderr,"file_write error: incorrect amount of bytes written");
+		return -1;
+	}	
+	
 	return 0;
-	}
+}
